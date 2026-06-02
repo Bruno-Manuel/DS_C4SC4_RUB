@@ -33,5 +33,5 @@ indicadores clave como el rendimiento, niveles de satisfacción, salarios y ause
 para facilitar la toma de decisiones estratégicas en Recursos Humanos.
 """)
 
-image = Image.open('logotipo.jpg')
+image = Image.open('logotipo.png')
 st.image(image, caption='Logotipo de la compañia') 
