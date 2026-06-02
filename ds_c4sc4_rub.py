@@ -37,3 +37,16 @@ image = Image.open('logotipo.png')
 st.image(image, caption='Logotipo de la compañia') 
 
 selected_gender = st.radio("Select Gender", data["gender"].unique()) 
+rango_desempeno = st.slider(
+    "Selecciona el rango de puntaje de desempeño:",
+    min_value=1.0,
+    max_value=5.0,
+    value=(1.0, 5.0), # Valores iniciales por defecto (mínimo, máximo)
+    step=0.1          # Permite avanzar de décima en décima
+)
+
+data_filtrada = data[
+    (data["gender"] == selected_gender) & 
+    (data["performance_score"] >= rango_desempeno[0]) & 
+    (data["performance_score"] <= rango_desempeno[1])
+]
