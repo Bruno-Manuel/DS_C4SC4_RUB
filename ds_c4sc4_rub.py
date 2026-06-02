@@ -116,3 +116,25 @@ if not data_grafico_horas.empty:
     st.plotly_chart(fig_horas, use_container_width=True)
 else:
     st.warning("No hay datos disponibles para calcular el promedio de horas con los filtros seleccionados.")
+
+
+st.subheader("💰 Relación entre Edad y Salario")
+
+# Reutilizamos el filtro que ignora el género para ver la distribución completa
+if not data_grafico_horas.empty:
+    
+    # Crear gráfico de dispersión básico
+    fig_dispersion = px.scatter(
+        data_grafico_horas,
+        x="age",
+        y="salary",
+        color="gender",  # Diferencia los puntos por género usando colores
+        title="Dispersión de Salarios por Edad",
+        labels={"age": "Edad (Años)", "salary": "Salario Mensual"},
+        color_discrete_sequence=["#2E86C1", "#E74C3C"]
+    )
+    
+    # Desplegar en Streamlit
+    st.plotly_chart(fig_dispersion, use_container_width=True)
+else:
+    st.warning("No hay datos disponibles para generar el gráfico de dispersión.")
