@@ -3,6 +3,7 @@ import streamlit as st
 import pandas as pd
 import datetime
 from PIL import Image
+import plotly.express as px
 
 data = pd.read_csv("Employee_data.csv")
 
@@ -54,3 +55,22 @@ data_filtrada = data[
         (data["performance_score"] >= rango_desempeno[0]) & 
         (data["performance_score"] <= rango_desempeno[1])
     ]
+
+st.subheader("📊 Distribución del Puntaje de Desempeño")
+
+# Validar que existan datos para graficar tras aplicar los filtros
+if not data_filtrada.empty:
+    
+    # 1. Crear el gráfico de distribución (Histograma) con Plotly Express
+    fig = px.histogram(
+        data_filtrada, 
+        x="performance_score",
+        nbins=10,  # Ajusta el número de barras si tus puntajes son continuos (ej. 3.5, 4.2)
+        title="Frecuencia de los Puntajes de Desempeño",
+        labels={"performance_score": "Puntaje de Desempeño", "count": "Número de Empleados"},
+        color_discrete_sequence=["#2E86C1"] # Puedes cambiar el color hexadecimal aquí
+    )
+st.plotly_chart(fig, use_container_width=True)
+
+else:
+    st.warning("No hay datos disponibles para generar la gráfica con los filtros actuales.")
