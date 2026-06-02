@@ -10,6 +10,7 @@ Original file is located at
 import streamlit as st
 import pandas as pd
 import datetime
+from PIL import Image
 
 data = pd.read_csv("Employee_data.csv")
 
@@ -40,3 +41,5 @@ indicadores clave como el rendimiento, niveles de satisfacción, salarios y ause
 para facilitar la toma de decisiones estratégicas en Recursos Humanos.
 """)
 
+image = Image.open(‘logotipo.jpg’)
+st.image(image, caption=’Logotipo de la compañia’) 
