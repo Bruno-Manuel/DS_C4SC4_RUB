@@ -65,12 +65,15 @@ if not data_filtrada.empty:
     fig = px.histogram(
         data_filtrada, 
         x="performance_score",
-        nbins=10,  # Ajusta el número de barras si tus puntajes son continuos (ej. 3.5, 4.2)
+        nbins=10,  # Ajusta el número de barras si tus puntajes son continuos
         title="Frecuencia de los Puntajes de Desempeño",
         labels={"performance_score": "Puntaje de Desempeño", "count": "Número de Empleados"},
-        color_discrete_sequence=["#2E86C1"] # Puedes cambiar el color hexadecimal aquí
+        color_discrete_sequence=["#2E86C1"] 
     )
-st.plotly_chart(fig, use_container_width=True)
+    
+    # 2. Desplegar el gráfico (DEBE ir indentado dentro del if)
+    st.plotly_chart(fig, use_container_width=True)
 
 else:
+    # Este else ahora sí se conecta correctamente con el if de arriba
     st.warning("No hay datos disponibles para generar la gráfica con los filtros actuales.")
