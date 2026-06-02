@@ -81,3 +81,38 @@ if not data_filtrada.empty:
 
 else:
     st.warning("No hay datos disponibles para generar la gráfica con los filtros actuales.")
+
+
+st.subheader("🕒 Horas promedio por Género")
+
+# 1. Filtrar los datos ignorando el género para que el gráfico conserve la comparación
+data_grafico_horas = data[
+    (data["marital_status"].isin(estados_civiles_seleccionados)) & 
+    (data["performance_score"] >= rango_desempeno[0]) & 
+    (data["performance_score"] <= rango_desempeno[1])
+]
+
+if not data_grafico_horas.empty:
+    # 2. Agrupar y calcular el promedio de horas usando el dataset parcialmente filtrado
+    df_horas = data_grafico_horas.groupby("gender", as_index=False)["average_work_hours"].mean()
+    
+    # Redondear para una visualización más limpia
+    df_horas["average_work_hours"] = df_horas["average_work_hours"].round(1)
+    
+    # 3. Crear y mostrar la gráfica de barras básica
+    fig_horas = px.bar(
+        df_horas, 
+        x="gender", 
+        y="average_work_hours", 
+        title="Promedio de Horas Trabajadas (Filtrado por Estado Civil y Desempeño)",
+        text="average_work_hours",
+        color="gender",
+        color_discrete_sequence=["#2E86C1", "#E74C3C"]
+    )
+    
+    # Ajuste para que el número del promedio quede arriba de la barra
+    fig_horas.update_traces(textposition="outside")
+    
+    st.plotly_chart(fig_horas, use_container_width=True)
+else:
+    st.warning("No hay datos disponibles para calcular el promedio de horas con los filtros seleccionados.")
