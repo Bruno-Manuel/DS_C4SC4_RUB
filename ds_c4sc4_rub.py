@@ -36,7 +36,7 @@ para facilitar la toma de decisiones estratégicas en Recursos Humanos.
 image = Image.open('logotipo.png')
 st.image(image, caption='Logotipo de la compañia') 
 
-selected_gender = st.radio("Select Gender", data["gender"].unique()) 
+selected_gender = st.radio("Selecciona el género", data["gender"].unique()) 
 rango_desempeno = st.slider(
     "Selecciona el rango de puntaje de desempeño:",
     min_value=1.0,
@@ -44,9 +44,12 @@ rango_desempeno = st.slider(
     value=(1.0, 5.0), # Valores iniciales por defecto (mínimo, máximo)
     step=0.1          # Permite avanzar de décima en décima
 )
+selected_marital_status = st.selectbox("Selecciona el estado civil", employee_data["marital_status"].unique())
+
 
 data_filtrada = data[
     (data["gender"] == selected_gender) & 
+    (data["marital_status"] == selected_marital_status) & 
     (data["performance_score"] >= rango_desempeno[0]) & 
     (data["performance_score"] <= rango_desempeno[1])
 ]
