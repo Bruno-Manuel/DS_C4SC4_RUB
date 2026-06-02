@@ -44,12 +44,13 @@ rango_desempeno = st.slider(
     value=(1.0, 5.0), # Valores iniciales por defecto (mínimo, máximo)
     step=0.1          # Permite avanzar de décima en décima
 )
-selected_marital_status = st.selectbox("Selecciona el estado civil", data["marital_status"].unique())
-
+opciones_estado_civil = data["marital_status"].unique()
+estados_civiles_seleccionados = st.multiselect("Selecciona uno o varios Estados Civiles:",
+    options=opciones_estado_civil, default=opciones_estado_civil )
 
 data_filtrada = data[
-    (data["gender"] == selected_gender) & 
-    (data["marital_status"] == selected_marital_status) & 
-    (data["performance_score"] >= rango_desempeno[0]) & 
-    (data["performance_score"] <= rango_desempeno[1])
-]
+        (data["gender"] == selected_gender) & 
+        (data["marital_status"].isin(estados_civiles_seleccionados)) & 
+        (data["performance_score"] >= rango_desempeno[0]) & 
+        (data["performance_score"] <= rango_desempeno[1])
+    ]
