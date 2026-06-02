@@ -70,26 +70,10 @@ if not data_filtrada.empty:
         color_discrete_sequence=["#2E86C1"] 
     )
     
-    # 2. Controlamos manualmente el tamaño y comportamiento de los contenedores (bins)
-    fig.update_traces(
-        xbins=dict(
-            start=1.0,  # Dónde empieza el primer bloque
-            end=5.0,    # Dónde termina el último bloque
-            size=0.5    # El ancho de cada barra (ej. de 1.0 a 1.5, de 1.5 a 2.0, etc.)
-        ),
-        autobinx=False  # Le quitamos el control automático a Plotly para que respete nuestro tamaño
-    )
-    
     # 3. Ajustes estéticos del diseño y del eje X
     fig.update_layout(
         xaxis_title="Puntaje de Desempeño (Rango Continuo)",
         yaxis_title="Cantidad de Empleados",
-        bargap=0.05, # Una separación muy sutil entre barras para que se note dónde termina cada rango
-        xaxis=dict(
-            tickmode='linear',
-            tick0=1.0,
-            dtick=0.5 # Fuerza a que aparezcan marcas en el eje X cada 0.5 unidades
-        )
     )
     
     # 4. Desplegar el gráfico interactivo corregido
