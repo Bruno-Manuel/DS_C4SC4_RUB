@@ -138,3 +138,23 @@ if not data_grafico_horas.empty:
     st.plotly_chart(fig_dispersion, use_container_width=True)
 else:
     st.warning("No hay datos disponibles para generar el gráfico de dispersión.")
+
+st.subheader("📈 Horas Trabajadas vs. Puntaje de Desempeño")
+
+if not data_grafico_horas.empty:
+    
+    # Crear gráfico de dispersión para evaluar el impacto de las horas en el desempeño
+    fig_horas_desempeno = px.scatter(
+        data_grafico_horas,
+        x="average_work_hours",
+        y="performance_score",
+        color="gender",  # Mantiene la diferenciación visual por género
+        title="Relación entre Horas Mensuales y Rendimiento",
+        labels={"average_work_hours": "Horas Trabajadas Promedio", "performance_score": "Puntaje de Desempeño"},
+        color_discrete_sequence=["#2E86C1", "#E74C3C"]
+    )
+    
+    # Desplegar la gráfica en la aplicación
+    st.plotly_chart(fig_horas_desempeno, use_container_width=True)
+else:
+    st.warning("No hay datos disponibles para generar el gráfico de rendimiento vs horas.")
