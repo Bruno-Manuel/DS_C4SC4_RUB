@@ -172,7 +172,6 @@ if not data_grafico_horas.empty:
         df_dispersion,
         x="average_work_hours",
         y="performance_score",
-        color="gender",
         title="Relación entre Horas Mensuales y Rendimiento",
         labels={"average_work_hours": "Horas Trabajadas Promedio", "performance_score": "Puntaje de Desempeño"},
         color_discrete_sequence=["#2E86C1", "#E74C3C"]
@@ -180,9 +179,6 @@ if not data_grafico_horas.empty:
     
     # 5. Forzar el eje Y a ser puramente categórico
     fig_horas_desempeno.update_yaxes(type='category')
-    
-    # 6. Hacer que los puntos sean un poco más grandes y estilizados
-    fig_horas_desempeno.update_traces(marker=dict(size=7, opacity=0.8))
     
     # Desplegar la gráfica corregida
     st.plotly_chart(fig_horas_desempeno, use_container_width=True)
