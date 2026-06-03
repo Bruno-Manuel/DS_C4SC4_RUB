@@ -150,22 +150,41 @@ if not data_grafico_horas.empty:
 else:
     st.warning("No hay datos disponibles para generar el gráfico de dispersión.")
 
+# ==============================================================================
+# SECCIÓN: GRÁFICO DE DISPERSIÓN - HORAS TRABAJADAS VS DESEMPEÑO (CORREGIDO)
+# ==============================================================================
 st.subheader("📈 Horas Trabajadas vs. Puntaje de Desempeño")
 
 if not data_grafico_horas.empty:
     
-    # Crear gráfico de dispersión para evaluar el impacto de las horas en el desempeño
-    fig_horas_desempeno = px.scatter(
-        data_grafico_horas,
+    # 1. Hacemos una copia temporal para no alterar tus datos originales
+    df_dispersion = data_grafico_horas.copy()
+    
+    # 2. Forzamos a que el desempeño sea texto/categoría para eliminar decimales en el eje Y
+    df_dispersion["performance_score"] = df_dispersion["performance_score"].astype(int).astype(str)
+    
+    # 3. Ordenamos de forma ascendente para que el eje Y vaya del 1 al 5 correctamente
+    df_dispersion = df_dispersion.sort_values("performance_score")
+    
+    # 4. Crear el gráfico usando px.strip (gráfica de dispersión óptima para categorías)
+    # Esto distribuye los puntos de forma sutil para que no se encimen en una sola línea delgada
+    fig_horas_desempeno = px.strip(
+        df_dispersion,
         x="average_work_hours",
         y="performance_score",
-        color="gender",  # Mantiene la diferenciación visual por género
+        color="gender",
         title="Relación entre Horas Mensuales y Rendimiento",
         labels={"average_work_hours": "Horas Trabajadas Promedio", "performance_score": "Puntaje de Desempeño"},
         color_discrete_sequence=["#2E86C1", "#E74C3C"]
     )
     
-    # Desplegar la gráfica en la aplicación
+    # 5. Forzar el eje Y a ser puramente categórico
+    fig_horas_desempeno.update_yaxes(type='category')
+    
+    # 6. Hacer que los puntos sean un poco más grandes y estilizados
+    fig_horas_desempeno.update_traces(marker=dict(size=7, opacity=0.8))
+    
+    # Desplegar la gráfica corregida
     st.plotly_chart(fig_horas_desempeno, use_container_width=True)
 else:
     st.warning("No hay datos disponibles para generar el gráfico de rendimiento vs horas.")
