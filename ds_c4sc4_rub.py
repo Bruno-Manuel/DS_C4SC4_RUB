@@ -59,27 +59,14 @@ data_filtrada = data[
 st.subheader("📊 Distribución del Puntaje de Desempeño")
 
 if not data_filtrada.empty:
-    # 1. Contar los datos
-    conteo_desempeno = data_filtrada["performance_score"].value_counts().reset_index()
-    conteo_desempeno.columns = ["performance_score", "count"]
+    # 1. Agrupar y contar cuántos empleados hay por cada nota entera
+    df_conteo = data_filtrada.groupby("performance_score").size()
     
-    # 2. CONVERSIÓN CLAVE: Forzar a que los números sean tratados como texto
-    conteo_desempeno["performance_score"] = conteo_desempeno["performance_score"].astype(str)
-    # Ordenar para que aparezcan del 1 al 5 en el orden correcto
-    conteo_desempeno = conteo_desempeno.sort_values("performance_score")
+    # 2. Forzar que el índice sea texto (para eliminar los decimales del eje X)
+    df_conteo.index = df_conteo.index.astype(int).astype(str)
     
-    # 3. Crear el Bar Chart básico
-    fig = px.bar(
-        conteo_desempeno,
-        x="performance_score",
-        y="count",
-        title="Frecuencia de los Puntajes de Desempeño",
-        labels={"performance_score": "Puntaje de Desempeño", "count": "Número de Empleados"},
-        color_discrete_sequence=["#2E86C1"]
-    )
-    
-    # 4. Desplegar gráfico
-    st.plotly_chart(fig, use_container_width=True)
+    # 3. Graficar con el componente básico y nativo de Streamlit
+    st.bar_chart(df_conteo, color="#2E86C1")
 
 else:
     st.warning("No hay datos disponibles para generar la gráfica con los filtros actuales.")
