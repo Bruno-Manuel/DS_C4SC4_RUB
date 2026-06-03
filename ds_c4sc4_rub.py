@@ -59,14 +59,36 @@ data_filtrada = data[
 st.subheader("📊 Distribución del Puntaje de Desempeño")
 
 if not data_filtrada.empty:
-    # 1. Agrupar y contar cuántos empleados hay por cada nota entera
-    df_conteo = data_filtrada.groupby("performance_score").size()
+    # 1. Contar los datos y limpiar el DataFrame
+    conteo_desempeno = data_filtrada["performance_score"].value_counts().reset_index()
+    conteo_desempeno.columns = ["Puntaje", "Empleados"]
     
-    # 2. Forzar que el índice sea texto (para eliminar los decimales del eje X)
-    df_conteo.index = df_conteo.index.astype(int).astype(str)
+    # 2. Forzar que el puntaje sea texto y ordenarlo correctamente
+    conteo_desempeno["Puntaje"] = conteo_desempeno["Puntaje"].astype(int).astype(str)
+    conteo_desempeno = conteo_desempeno.sort_values("Puntaje")
     
-    # 3. Graficar con el componente básico y nativo de Streamlit
-    st.bar_chart(df_conteo, color="#2E86C1")
+    # 3. Crear el Bar Chart con Tooltip personalizado
+    fig = px.bar(
+        conteo_desempeno,
+        x="Puntaje",
+        y="Empleados",
+        title="Frecuencia de los Puntajes de Desempeño",
+        color_discrete_sequence=["#2E86C1"],
+        # Ajustamos el tooltip para que solo muestre las variables limpias
+        hover_data={"Puntaje": True, "Empleados": True}
+    )
+    
+    # 4. Rotar etiquetas del eje X a 0 grados (para que queden derechas/paradas)
+    fig.update_xaxes(tickangle=0, type='category')
+    
+    # 5. Ajustar títulos de los ejes
+    fig.update_layout(
+        xaxis_title="Puntaje de Desempeño",
+        yaxis_title="Cantidad de Empleados"
+    )
+    
+    # 6. Desplegar gráfico
+    st.plotly_chart(fig, use_container_width=True)
 
 else:
     st.warning("No hay datos disponibles para generar la gráfica con los filtros actuales.")
