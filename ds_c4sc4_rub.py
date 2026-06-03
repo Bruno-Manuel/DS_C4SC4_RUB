@@ -184,3 +184,17 @@ if not data_grafico_horas.empty:
     st.plotly_chart(fig_horas_desempeno, use_container_width=True)
 else:
     st.warning("No hay datos disponibles para generar el gráfico de rendimiento vs horas.")
+
+st.subheader("💡 Conclusiones del Análisis")
+
+st.markdown("""
+Tras evaluar de manera integral los indicadores clave de la plantilla, se presentan las siguientes conclusiones estratégicas para la toma de decisiones en el área de Capital Humano:
+
+1. **Rendimiento y Distribución del Desempeño:** La mayor concentración de los colaboradores se ubica en un nivel de desempeño de **3 (satisfactorio)**. Sin embargo, existe un grupo menor pero crítico en los niveles 1 y 2 que requiere de planes de capacitación específicos o mentorías para alinear sus resultados con los objetivos de la organización.
+
+2. **Equidad en la Jornada Laboral:** Al analizar el promedio de horas trabajadas mensualmente por género, se observa una **distribución sumamente equitativa** entre hombres y mujeres. Ambos grupos mantienen promedios de actividad prácticamente idénticos, lo que demuestra consistencia en las cargas de trabajo asignadas en toda la organización.
+
+3. **Estructura Salarial y Edad:** La gráfica de dispersión refleja que los salarios no están correlacionados de forma lineal o directa con la edad del empleado. Esto sugiere una estructura de compensaciones basada en **puestos, responsabilidades y habilidades**, más que en la antigüedad cronológica, promoviendo una cultura de meritocracia.
+
+4. **Productividad vs. Horas de Trabajo:** La relación entre el tiempo invertido y el puntaje de desempeño muestra que **trabajar más horas no garantiza automáticamente una mejor calificación**. Los colaboradores con rendimientos sobresalientes (niveles 4 y 5) registran un volumen de horas similar al de los niveles promedio. Esto indica que factores cualitativos, como la eficiencia, el uso de herramientas de automatización o el nivel de competencia técnica, impactan con mayor fuerza el éxito que la simple extensión de la jornada laboral.
+""")
