@@ -58,31 +58,28 @@ data_filtrada = data[
 
 st.subheader("📊 Distribución del Puntaje de Desempeño")
 
-# Validar que existan datos para graficar tras aplicar los filtros
+st.subheader("📊 Distribución del Puntaje de Desempeño")
+
 if not data_filtrada.empty:
+    # 1. Contar cuántos empleados hay por cada nota (ej: {3: 100, 4: 17...})
+    conteo_desempeno = data_filtrada["performance_score"].value_counts()
     
-    # 1. Volvemos a px.histogram porque los datos son continuos
-    fig = px.histogram(
-        data_filtrada, 
-        x="performance_score",
+    # 2. Crear el Bar Chart básico
+    fig = px.bar(
+        conteo_desempeno,
         title="Frecuencia de los Puntajes de Desempeño",
-        labels={"performance_score": "Puntaje de Desempeño", "count": "Número de Empleados"},
-        color_discrete_sequence=["#2E86C1"] 
+        labels={"value": "Puntaje de Desempeño", "count": "Número de Empleados"},
+        color_discrete_sequence=["#2E86C1"]
     )
     
-    # 3. Ajustes estéticos del diseño y del eje X
-    fig.update_layout(
-        xaxis_title="Puntaje de Desempeño (Rango Continuo)",
-        yaxis_title="Cantidad de Empleados",
-    )
+    # Opcional: Quitar la leyenda lateral que Plotly pone por defecto al usar value_counts
+    fig.update_layout(showlegend=False)
     
-    # 4. Desplegar el gráfico interactivo corregido
+    # 3. Desplegar gráfico
     st.plotly_chart(fig, use_container_width=True)
 
 else:
     st.warning("No hay datos disponibles para generar la gráfica con los filtros actuales.")
-
-
 st.subheader("🕒 Horas promedio por Género")
 
 # 1. Filtrar los datos ignorando el género para que el gráfico conserve la comparación
